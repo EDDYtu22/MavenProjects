@@ -22,7 +22,7 @@ public class csvToDB {
             Connection conn = DBConnection.getInstance();
 
             // crate table if not exists
-            String createDBQuery = "CREATE TABLE IF NOT EXISTS USERNAMES (USERNAME VARCHAR(255), IDENTIFIER INT, FIRST_NAME VARCHAR(255), LAST_NAME VARCHAR(255))";
+            String createDBQuery = "CREATE TABLE IF NOT EXISTS USERNAMES (USERNAME VARCHAR(255), IDENTIFIER INT NOT NULL, FIRST_NAME VARCHAR(255), LAST_NAME VARCHAR(255), PRIMARY KEY(IDENTIFIER))";
             Statement statement = conn.createStatement();
             statement.execute(createDBQuery);
 
@@ -35,7 +35,7 @@ public class csvToDB {
             String inserValuesQuery = "INSERT INTO USERNAMES (USERNAME, IDENTIFIER, FIRST_NAME, LAST_NAME) VALUES(?,?,?,?)";
             PreparedStatement inserValuesStatement = conn.prepareStatement(inserValuesQuery);
             // iterate over csv file and for each record insert in DB
-            Reader in = new FileReader("./src/main/resourses/username.csv");
+            Reader in = new FileReader("/Users/edko/Main/MavenProjects/project1/src/main/resourses/username.csv");
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(in);
             for (CSVRecord record : records) {
                 String username = record.get("Username");
