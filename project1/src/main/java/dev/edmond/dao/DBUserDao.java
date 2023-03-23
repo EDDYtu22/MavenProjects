@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 import dev.edmond.DB.DBConnection;
+import dev.edmond.models.User;
 
 // import dev.edmond.DB.DBConnection;
 

@@ -5,6 +5,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import dev.edmond.DB.DBConnection;
+import dev.edmond.models.User;
 
 public interface IUserDao {
 

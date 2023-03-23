@@ -81,7 +81,7 @@ public class App {
 
             System.out.println(test.getAll());
 
-            test.insert(new dev.edmond.dao.User("hans", 2445, "hani", "tomov"));
+            test.insert(new dev.edmond.models.User("hans", 2445, "hani", "tomov"));
 
             System.out.println(test.getAll());
 

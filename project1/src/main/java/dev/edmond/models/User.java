@@ -1,4 +1,4 @@
-package dev.edmond.dao;
+package dev.edmond.models;
 
 public class User {
 
