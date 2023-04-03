@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import dev.edmond.DB.DBConnection;
@@ -16,11 +15,11 @@ import dev.edmond.models.User;
 
 
 
+public class FileUserDao implements IUserDao {
 
-public class DBUserDao implements IUserDao {
 
-    public DBUserDao() {
-        System.out.println("DBuserdao constructor executed!");
+    FileUserDao() {
+        System.out.println("FileUserDao constructor executed!");
     }
 
     @Override
