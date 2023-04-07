@@ -2,40 +2,36 @@ package dev.edmond.springstart.models;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private UUID id;
-    
+
     private String street;
     private int number;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnoreProperties("address")
     private Person person;
-    
-    
-    public String getStreet() {
-        return street;
-    }
-    public void setStreet(String street) {
-        this.street = street;
-    }
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
-    }
 
-    public String toString(){
-        return this.street + " #" + number;
-    }
-    
 }

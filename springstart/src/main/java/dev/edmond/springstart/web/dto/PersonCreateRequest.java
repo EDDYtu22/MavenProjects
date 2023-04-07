@@ -1,23 +1,25 @@
 package dev.edmond.springstart.web.dto;
 
-import java.util.UUID;
+import org.hibernate.validator.constraints.Range;
 
 import dev.edmond.springstart.models.Address;
+import dev.edmond.springstart.validation.ValidEgn;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class PersonResponse {
-
-    private UUID id;
+public class PersonCreateRequest {
 
     private String name;
-
-    private int age;
+    @Range(min = 0, max = 200)
+    private Integer age;
 
     private AddressDto address;
 
+    @ValidEgn
     private String egnNumber;
+
+    
 
 }

@@ -33,7 +33,7 @@ public class PhotoController {
         System.out.println("test");
         List<Photo> allPhotos = (List<Photo>) repo.findAll();
         Set<UUID> allPhotosIds = new HashSet<>();
-        for(Photo photo : allPhotos){
+        for (Photo photo : allPhotos) {
             allPhotosIds.add(photo.getId());
         }
 
@@ -41,24 +41,25 @@ public class PhotoController {
     }
 
     @GetMapping("/{photoId}")
-    public ResponseEntity<byte[]> getPhotoById(@PathVariable String photoId){
+    public ResponseEntity<byte[]> getPhotoById(@PathVariable String photoId) {
         Photo photo = repo.findById(UUID.fromString(photoId)).get();
-        return ResponseEntity.ok().header("Content-Type" , photo.getContentType()).body(photo.getContent());
+        return ResponseEntity.ok().header("Content-Type", photo.getContentType()).body(photo.getContent());
     }
 
     @PostMapping("")
     public String handleImageUpload(@RequestParam("image") MultipartFile file,
             RedirectAttributes redirectAttributes) throws IOException {
 
-        Photo newPhoto = new Photo();
-        newPhoto.setContent(file.getBytes());
-        newPhoto.setContentType(file.getContentType());
-        newPhoto.setOriginalFilename(file.getOriginalFilename());
+        Photo newPhoto = Photo
+                .builder()
+                .content(file.getBytes())
+                .contentType(file.getContentType())
+                .originalFilename(file.getOriginalFilename())
+                .build();
 
         Photo photo = repo.save(newPhoto);
 
         return photo.getId().toString();
     }
-
 
 }
