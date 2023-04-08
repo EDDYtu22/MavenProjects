@@ -1,22 +1,25 @@
 package dev.edmond.swapi.models;
 
 import java.util.Set;
-import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import  java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
@@ -26,7 +29,8 @@ import lombok.NoArgsConstructor;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Setter(AccessLevel.NONE)   
     private Integer id;
 
     private String name;
@@ -45,9 +49,9 @@ public class Person {
 
     private String gender;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "Planet_ID")
-    private Planet homeWorld;
+    private Planet planet;
 
     @ManyToMany
     @JoinTable(
@@ -77,10 +81,11 @@ public class Person {
         inverseJoinColumns = @JoinColumn(name = "starship_id"))
     private Set<Starship> starships;
 
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    private String created;
-
-    private String edited;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private String url;
 

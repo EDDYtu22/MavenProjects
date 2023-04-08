@@ -3,10 +3,13 @@ package dev.edmond.swapi.models;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,8 +42,10 @@ public class Specie {
 
     private String avfLifespan;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Planet_ID")
     private Planet planet;
-
+    
     private String lenguage;
 
     @ManyToMany(mappedBy = "species")

@@ -4,24 +4,22 @@ import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
 @Builder
-
 public class Planet {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private Integer id;
 
     private String rotationPeriod;
@@ -36,12 +34,15 @@ public class Planet {
 
     private String terrain;
 
-    private String surfacewater;
+    private String surfaceWater;
 
     private String population;
 
-    @OneToMany(mappedBy = "homeWorld")
-    private Set<Person> persons;
+    @OneToMany(mappedBy = "planet")
+    private Set<Person> residents;
+
+    @OneToMany(mappedBy = "planet")
+    private Set<Specie> species;
 
     @ManyToMany(mappedBy = "planets")
     private Set<Film> films;
@@ -51,6 +52,5 @@ public class Planet {
     private String edited;
 
     private String url;
-
 
 }
