@@ -56,15 +56,18 @@ public class PersonController {
     @Autowired
     private PersonMapper personMapper;
 
-    private final Integer PAGE_SIZE = 2;
+    private final Integer PAGE_SIZE = 5;
 
     @GetMapping("")
-    public Page<PersonResponse> getAllPersons(@RequestParam(defaultValue = "1") Integer currPage) {
-        
-        return pagingRepo.findAll(PageRequest.of(currPage, PAGE_SIZE)).map(personMapper::personResponseFromPerson);
+    public List<PersonResponse> getAllPersons() {
+        //@RequestParam(defaultValue = "1") Integer currPage
+        //return pagingRepo.findAll(PageRequest.of(currPage, PAGE_SIZE)).map(personMapper::personResponseFromPerson);
 
         //Page<Person>
         //Page<PersonResponse>
+        
+
+        return personMapper.listOfModelToListOfDto(repo.findAll());
         
     }
 
