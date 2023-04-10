@@ -1,6 +1,10 @@
 package dev.edmond.swapi.models;
 
+import  java.time.LocalDateTime;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +27,6 @@ import lombok.NoArgsConstructor;
 public class Specie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -54,10 +57,11 @@ public class Specie {
     @ManyToMany(mappedBy = "species")
     private Set<Film> films;
 
-    private String created;
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    private String edited;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private String url;
-
 }

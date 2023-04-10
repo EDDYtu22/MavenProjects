@@ -1,6 +1,10 @@
 package dev.edmond.swapi.models;
 
+import  java.time.LocalDateTime;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +23,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Vehicle {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -50,9 +53,11 @@ public class Vehicle {
     @ManyToMany(mappedBy = "vehicles")
     private Set<Film> films;
 
-    private String created;
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    private String edited;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private String url;
 }

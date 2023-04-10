@@ -1,7 +1,10 @@
 package dev.edmond.swapi.models;
 
+import  java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +24,6 @@ import lombok.NoArgsConstructor;
 public class Starship {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -52,9 +54,11 @@ public class Starship {
     @ManyToMany(mappedBy = "starships")
     private Set<Film> films;
 
-    private String created;
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    private String edited;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private String url;
 

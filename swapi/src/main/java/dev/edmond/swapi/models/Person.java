@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import  java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -29,8 +30,6 @@ import lombok.Setter;
 public class Person {
 
     @Id
-    @GeneratedValue
-    @Setter(AccessLevel.NONE)   
     private Integer id;
 
     private String name;
@@ -39,17 +38,17 @@ public class Person {
 
     private long mass;
 
-    private String hairColor;
+    private String hair_color;
 
-    private String eyeColor;
+    private String eye_color;
 
-    private String skinColor;
+    private String skin_color;
 
-    private String birthYear;
+    private String birth_year;
 
     private String gender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Planet_ID")
     private Planet planet;
 
@@ -85,7 +84,7 @@ public class Person {
     private LocalDateTime created;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updated;
 
     private String url;
 

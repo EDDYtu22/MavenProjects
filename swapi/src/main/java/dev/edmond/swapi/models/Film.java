@@ -1,13 +1,17 @@
 package dev.edmond.swapi.models;
 
+import  java.time.LocalDateTime;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,18 +26,18 @@ import lombok.NoArgsConstructor;
 public class Film {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
 
-    private String openingCrawl;
+    @Lob
+    private String opening_crawl;
 
     private String director;
 
     private String producer;
 
-    private String date;
+    private String release_date;
 
     @ManyToMany(mappedBy = "films")
     private Set<Person> characters;
@@ -66,9 +70,11 @@ public class Film {
         inverseJoinColumns = @JoinColumn(name = "spezie_id"))
     private Set<Specie> species;
 
-    private String created;
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    private String edited;
+    @UpdateTimestamp
+    private LocalDateTime updated;
 
     private String url;
 
