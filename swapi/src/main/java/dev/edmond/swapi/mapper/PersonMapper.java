@@ -1,8 +1,6 @@
 package dev.edmond.swapi.mapper;
 
 import java.util.List;
-import java.util.ArrayList;
-
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,5 +23,6 @@ public interface PersonMapper {
 
     public PersonResponse responseFromPerson(Person person);
 
-    //public ArrayList<Person> personListFromRequestList(List<PersonCreateRequest> requestList);
+    public List<Person> personListFromRequestList(List<PersonCreateRequest> requestList);
+
 }

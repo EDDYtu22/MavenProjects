@@ -27,29 +27,30 @@ import lombok.NoArgsConstructor;
 public class Specie {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
 
     private String classification;
 
-    private String destination;
+    private String designation;
 
-    private String avgHeight;
+    private String average_height;
 
-    private String skinColors;
+    private String skin_colors;
 
-    private String hairColors;
+    private String hair_colors;
 
-    private String eyeColors;
+    private String eye_colors;
 
-    private String avfLifespan;
+    private String average_lifespan;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Planet_ID")
     private Planet planet;
     
-    private String lenguage;
+    private String language;
 
     @ManyToMany(mappedBy = "species")
     private Set<Person> persons;
@@ -61,7 +62,5 @@ public class Specie {
     private LocalDateTime created;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    private String url;
+    private LocalDateTime updated;
 }

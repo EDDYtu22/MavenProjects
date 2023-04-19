@@ -8,12 +8,9 @@ import lombok.Data;
 @Data
 @Builder
 public class FilmDto {
-    @Id
-    private Integer id;
 
     private String title;
 
-    @Lob
     private String opening_crawl;
 
     private String director;

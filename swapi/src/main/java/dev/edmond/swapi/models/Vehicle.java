@@ -22,7 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vehicle {
+   
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -31,21 +33,21 @@ public class Vehicle {
 
     private String manufacturer;
     
-    private String cost;
+    private String cost_in_credits;
     
     private String length;
 
-    private String maxSpeed;
+    private String max_atmosphering_speed;
 
     private String crew;
 
-    private String passangers;
+    private String passengers;
 
-    private String cargoCapacity;
+    private String cargo_capacity;
 
     private String consumables;
 
-    private String vehicleClass;
+    private String vehicle_class;
 
     @ManyToMany(mappedBy = "vehicles")
     private Set<Person> pilots;
@@ -57,7 +59,5 @@ public class Vehicle {
     private LocalDateTime created;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    private String url;
+    private LocalDateTime updated;
 }

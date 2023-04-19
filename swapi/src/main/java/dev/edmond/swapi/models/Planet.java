@@ -30,6 +30,7 @@ import lombok.Setter;
 public class Planet {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
@@ -74,8 +75,6 @@ public class Planet {
 
     @Column(name = "edited")
     @UpdateTimestamp
-    private LocalDateTime edited;
+    private LocalDateTime updated;
 
-    @Column(name = "url")
-    private String url;
  }

@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class PlanetCreateRequest {
 
-    private Integer id;
+    //private Integer id;
 
     private String name;
 
@@ -30,7 +30,5 @@ public class PlanetCreateRequest {
     private String surface_water;
 
     private String population;
-
-    private String url;
     
 }

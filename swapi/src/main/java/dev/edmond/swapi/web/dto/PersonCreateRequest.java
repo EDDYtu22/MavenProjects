@@ -16,9 +16,9 @@ public class PersonCreateRequest {
 
     private String name;
 
-    private long height;
+    private String height;
 
-    private long mass;
+    private String mass;
 
     private String hair_color;
 
@@ -31,5 +31,4 @@ public class PersonCreateRequest {
     @ValidGender
     private String gender;
 
-    private String url;
 }

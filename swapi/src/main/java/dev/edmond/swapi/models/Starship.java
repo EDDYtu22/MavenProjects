@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 public class Starship {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -32,21 +33,25 @@ public class Starship {
 
     private String manufacturer;
 
-    private String cost;
-
+    private String cost_in_credits;
+    
     private String length;
 
-    private String maxSpeed;
+    private String max_atmosphering_speed;
 
     private String crew;
 
-    private String passangers;
+    private String passengers;
 
-    private String cargoCapacity;
+    private String cargo_capacity;
 
     private String consumables;
 
-    private String vehicleClass;
+    private String starship_class;
+
+    private String hyperdrive_rating;
+
+    private String MGLT;
 
     @ManyToMany(mappedBy = "starships")
     private Set<Person> pilots;
@@ -58,8 +63,7 @@ public class Starship {
     private LocalDateTime created;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updated;
 
-    private String url;
 
 }

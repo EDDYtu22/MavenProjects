@@ -33,10 +33,6 @@ public class PlanetResponse {
 
     private Set<Film> films;
 
-    private String created;
-
-    private String edited;
-
     private String url;
     
 }
