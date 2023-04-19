@@ -1,15 +1,11 @@
 package dev.edmond.springstart.web;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,150 +19,120 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.edmond.springstart.error.InvalidObjectException;
-import dev.edmond.springstart.error.NotFoundObjectException;
 import dev.edmond.springstart.mapper.PersonMapper;
 import dev.edmond.springstart.models.Person;
-import dev.edmond.springstart.models.Photo;
-import dev.edmond.springstart.repository.PersonPagingRepository;
-import dev.edmond.springstart.repository.PersonRepository;
-import dev.edmond.springstart.repository.PhotoRepository;
+import dev.edmond.springstart.service.PersonService;
 import dev.edmond.springstart.validation.ObjectValidator;
+import dev.edmond.springstart.web.dto.PersonApiPage;
 import dev.edmond.springstart.web.dto.PersonCreateRequest;
-import dev.edmond.springstart.web.dto.PersonPhotosResponse;
+import dev.edmond.springstart.web.dto.PersonPhotosGetResponse;
+import dev.edmond.springstart.web.dto.PersonPhotosUpsertRequest;
 import dev.edmond.springstart.web.dto.PersonResponse;
 import dev.edmond.springstart.web.dto.PersonUpdateRequest;
-import dev.edmond.springstart.web.dto.SetPersonPhotosRequest;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/persons")
+@AllArgsConstructor
 public class PersonController {
 
-    @Autowired
-    private PersonRepository repo;
-
-    @Autowired
-    private PersonPagingRepository pagingRepo;
-
-    @Autowired
-    private PhotoRepository photoRepo;
-
-    @Autowired
     private ObjectValidator validator;
 
-    @Autowired
+    
     private PersonMapper personMapper;
 
-    private final Integer PAGE_SIZE = 5;
+    
+    private PersonService personService;
 
-    @GetMapping("")
-    public List<PersonResponse> getAllPersons() {
-        //@RequestParam(defaultValue = "1") Integer currPage
-        //return pagingRepo.findAll(PageRequest.of(currPage, PAGE_SIZE)).map(personMapper::personResponseFromPerson);
 
-        //Page<Person>
-        //Page<PersonResponse>
-        
+    private final Integer PAGE_SIZE = 10;
 
-        return personMapper.listOfModelToListOfDto(repo.findAll());
-        
+    @GetMapping(name= "", produces = "application/json")
+    public PersonApiPage<PersonResponse> getAllPersons(
+            @RequestParam(required = false, defaultValue = "0") Integer currPage) {
+                Page<PersonResponse> personPage = 
+                personService.fetchAll(currPage, PAGE_SIZE).map(personMapper::responseFromModel);
+        return new PersonApiPage<>(personPage);
     }
 
     @GetMapping("/{personId}")
-    public ResponseEntity<PersonResponse> getPersonByID(@PathVariable String personId) {
-        Person person = repo.findById(UUID.fromString(personId)).orElseThrow(() -> {
-            throw new NotFoundObjectException("Person Not Found!", Person.class.getName(), personId);
-        });
+    public ResponseEntity<PersonResponse> getPersonById(@PathVariable String personId) {
+        Person person = personService.findById(personId);
 
-        return ResponseEntity.ok().body(personMapper.personResponseFromPerson(person));
-
-    }
-
-    @GetMapping("/{personId}/photos")
-    public PersonPhotosResponse getAllPersonPhotos(@PathVariable String personId) {
-        Person person = repo.findById(UUID.fromString(personId)).get();
-
-        Set<UUID> allPhotosIds = new HashSet<>();
-        for (Photo photo : person.getPhotos()) {
-            allPhotosIds.add(photo.getId());
-        }
-
-        PersonPhotosResponse response = new PersonPhotosResponse();
-        response.setPersonPhotoIds(allPhotosIds);
-        return response;
-    }
-
-    @PutMapping(value = "{personId}/photos")
-    public PersonPhotosResponse setPersonPhotos(@PathVariable String personId,
-            @RequestBody SetPersonPhotosRequest request) {
-        Person person = repo.findById(UUID.fromString(personId)).get();
-
-        Map<String, String> validationErrors = validator.validate(request);
-
-        if (validationErrors.size() != 0) {
-            throw new InvalidObjectException("Invalid Person Photos Upsert Request", validationErrors);
-        }
-
-        List<Photo> allPersonPhotos = (List<Photo>) photoRepo.findAllById(request.getPersonPhotoIds());
-
-        person.setPhotos(new HashSet<>(allPersonPhotos));
-        Person savedPerson = repo.save(person);
-
-        Set<UUID> allPhotosIds = new HashSet<>();
-        for (Photo photo : savedPerson.getPhotos()) {
-            allPhotosIds.add(photo.getId());
-        }
-
-        PersonPhotosResponse response = new PersonPhotosResponse();
-        response.setPersonPhotoIds(allPhotosIds);
-        return response;
-    }
-
-    @PatchMapping("/{personId}")
-    ResponseEntity<PersonResponse> updatePerson(@PathVariable String personId,
-            @RequestBody PersonUpdateRequest personDto) {
-
-        Map<String, String> validationErrors = validator.validate(personDto);
-
-        if (validationErrors.size() != 0) {
-            throw new InvalidObjectException("Invalid Person Photos Upsert Request", validationErrors);
-        }
-
-        Person currentPerson =  repo.findById(UUID.fromString(personId)).orElseThrow(() -> {
-            throw new NotFoundObjectException("Person Not Found!", Person.class.getName(), personId);
-        });
-
-    personMapper.updateModelFromDto(personDto, currentPerson);
-
-    Person updatedPerson = repo.save(currentPerson);
-
-    PersonResponse responsePerson = personMapper.personResponseFromPerson(updatedPerson);
-
-    return ResponseEntity.status(200).body(responsePerson);
-
+        return ResponseEntity.ok(personMapper.responseFromModel(person));
     }
 
     @DeleteMapping("/{personId}")
-    public void deletePersonByID(@PathVariable String personId) {
-        repo.deleteById(UUID.fromString(personId));
+    public void deletePersonById(@PathVariable String personId) {
+        personService.deleteById(personId);
     }
 
-    @PostMapping(value = "")
+    @PostMapping("")
     public ResponseEntity<PersonResponse> createPerson(@RequestBody PersonCreateRequest personDto) {
 
         Map<String, String> validationErrors = validator.validate(personDto);
-
         if (validationErrors.size() != 0) {
             throw new InvalidObjectException("Invalid Person Create", validationErrors);
         }
 
-        // DTO -> Person Model
-
         Person mappedPerson = personMapper.modelFromCreateRequest(personDto);
 
-        Person savedPerson = repo.save(mappedPerson);
+        Person savedPerson = personService.save(mappedPerson);
 
-        PersonResponse response = personMapper.personResponseFromPerson(savedPerson);
-        return ResponseEntity.status(201).body(response);
+        PersonResponse responsePerson = personMapper.responseFromModel(savedPerson);
+
+        return ResponseEntity.status(201).body(responsePerson);
     }
+
+    @PatchMapping("/{personId}")
+    public ResponseEntity<PersonResponse> updatePerson(@PathVariable String personId,
+            @RequestBody PersonUpdateRequest personDto) {
+
+        Map<String, String> validationErrors = validator.validate(personDto);
+        if (validationErrors.size() != 0) {
+            throw new InvalidObjectException("Invalid Person Create", validationErrors);
+        }
+
+        Person currentPerson = personService.findById(personId);
+
+        personMapper.updateModelFromDto(personDto, currentPerson);
+
+        Person updatedPerson = personService.save(currentPerson);
+
+        PersonResponse responsePerson = personMapper.responseFromModel(updatedPerson);
+
+        return ResponseEntity.status(200).body(responsePerson);
+    }
+
+    @GetMapping("/{personId}/photos")
+    public PersonPhotosGetResponse getAllPersonPhotos(@PathVariable String personId) {
+
+        Set<UUID> allPersonPhotoIds = personService.getAllPersonPhotoIds(personId);
+
+        PersonPhotosGetResponse response =
+                PersonPhotosGetResponse.builder().personPhotoIds(allPersonPhotoIds).build();
+
+        return response;
+    }
+
+    @PutMapping(value = "/{personId}/photos")
+    public PersonPhotosGetResponse setPersonPhotos(@PathVariable String personId,
+            @RequestBody PersonPhotosUpsertRequest request) {
+
+        Map<String, String> validationErrors = validator.validate(request);
+
+        if (validationErrors.size() != 0) {
+            throw new InvalidObjectException("Invalid Person Photos Upsert Request",
+                    validationErrors);
+        }
+
+        Set<UUID> allPersonPhotoIds = personService.setPersonPhotos(personId, request.getPersonPhotoIds());
+
+        PersonPhotosGetResponse response =
+                PersonPhotosGetResponse.builder().personPhotoIds(allPersonPhotoIds).build();
+
+        return response;
+    }
+
 
 }

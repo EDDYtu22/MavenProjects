@@ -14,7 +14,7 @@ public class PersonResponse {
 
     private String name;
 
-    private int age;
+    private Integer age;
 
     private AddressDto address;
 

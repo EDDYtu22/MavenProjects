@@ -19,7 +19,7 @@ public interface PersonMapper{
     @Mapping(target = "photos", ignore = true)
     Person modelFromCreateRequest(PersonCreateRequest request);
     
-    PersonResponse personResponseFromPerson(Person person);
+    PersonResponse responseFromModel(Person person);
 
     @Mapping(target = "photos", ignore = true)
     @Mapping(target = "egnNumber", ignore = true)
