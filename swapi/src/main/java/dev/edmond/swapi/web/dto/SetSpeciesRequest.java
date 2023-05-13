@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class SetPersonFilmsRequest {
-   
+public class SetSpeciesRequest {
+    
     @NotNull
-    Set<Integer> setPersonFilms;
+    private Set<Integer> setSpecies;
 }

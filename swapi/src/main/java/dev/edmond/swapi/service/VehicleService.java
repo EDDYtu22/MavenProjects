@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import dev.edmond.swapi.error.ObjectNotFoundException;
+import dev.edmond.swapi.models.Person;
 import dev.edmond.swapi.models.Vehicle;
 import dev.edmond.swapi.repository.VehiclePagingRepository;
 import dev.edmond.swapi.repository.VehicleRepository;
@@ -26,5 +28,13 @@ public class VehicleService {
 
     public Page<Vehicle> fetchAll(int currentPage, int pageSize){
         return pagingRepo.findAll(PageRequest.of(currentPage, pageSize));
+    }
+
+
+    public Vehicle fetchById(Integer vehicleId){
+        Vehicle vehicle = repo.findById(vehicleId).orElseThrow(() -> {
+            throw new ObjectNotFoundException("Person Not Found", Person.class.getName(), vehicleId.toString());
+        });
+        return vehicle;
     }
 }

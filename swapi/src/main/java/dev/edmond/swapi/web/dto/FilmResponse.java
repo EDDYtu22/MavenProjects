@@ -5,35 +5,32 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
-public class PersonResponse {
-
+public class FilmResponse {
+    
     @JsonIgnore
     private Integer id;
 
-    private String name;
+    private String title;
 
-    private String height;
+    @JsonIgnore
+    private String opening_crawl;
 
-    private String mass;
+    private String director;
 
-    private String hair_color;
+    private String producer;
 
-    private String eye_color;
+    private String release_date;
 
-    private String skin_color;
+    private Set<String> characters;
 
-    private String birth_year;
-
-    private String gender;
-
-    private String planet;
-
-    private Set<String> films;
-
+    private Set<String> planets;
+    
     private Set<String> species;
 
     private Set<String> vehicles;
@@ -45,4 +42,5 @@ public class PersonResponse {
     private String updated;
 
     private String url;
+
 }

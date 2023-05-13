@@ -6,7 +6,11 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,10 +21,13 @@ import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,35 +49,40 @@ public class Film {
 
     private String release_date;
 
-    @ManyToMany(mappedBy = "films")
+    @ManyToMany(mappedBy = "films", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("films")
     private Set<Person> characters;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("films")
     @JoinTable(
         name = "film_planet", 
         joinColumns = @JoinColumn(name = "film_id"), 
         inverseJoinColumns = @JoinColumn(name = "planet_id"))
     private Set<Planet> planets;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "film_starship", 
         joinColumns = @JoinColumn(name = "film_id"), 
         inverseJoinColumns = @JoinColumn(name = "starship_id"))
+    @JsonIgnoreProperties("films")
     private Set<Starship> starships;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "film_vehicle", 
         joinColumns = @JoinColumn(name = "film_id"), 
         inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+    @JsonIgnoreProperties("films")
     private Set<Vehicle> vehicles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "film_spezie", 
         joinColumns = @JoinColumn(name = "film_id"), 
         inverseJoinColumns = @JoinColumn(name = "spezie_id"))
+    @JsonIgnoreProperties("films")
     private Set<Specie> species;
 
     @CreationTimestamp

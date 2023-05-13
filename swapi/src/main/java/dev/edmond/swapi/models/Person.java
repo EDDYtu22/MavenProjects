@@ -1,12 +1,14 @@
 package dev.edmond.swapi.models;
 
+import  java.time.LocalDateTime;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import  java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,15 +18,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,34 +54,39 @@ public class Person {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Planet_ID")
+    @JsonIgnoreProperties("residents")
     private Planet planet;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "person_film", 
         joinColumns = @JoinColumn(name = "person_id"), 
         inverseJoinColumns = @JoinColumn(name = "film_id"))
+    @JsonIgnoreProperties("characters")
     private Set<Film> films;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "person_spezie", 
         joinColumns = @JoinColumn(name = "person_id"), 
         inverseJoinColumns = @JoinColumn(name = "spezie_id"))
+    @JsonIgnoreProperties("persons")
     private Set<Specie> species;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "person_vehicle", 
         joinColumns = @JoinColumn(name = "person_id"), 
         inverseJoinColumns = @JoinColumn(name = "vechicle_id"))
+    @JsonIgnoreProperties("pilots") 
     private Set<Vehicle> vehicles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "person_starship", 
         joinColumns = @JoinColumn(name = "person_id"), 
         inverseJoinColumns = @JoinColumn(name = "starship_id"))
+    @JsonIgnoreProperties("pilots") 
     private Set<Starship> starships;
 
     @CreationTimestamp

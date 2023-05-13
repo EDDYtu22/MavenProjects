@@ -2,15 +2,22 @@ package dev.edmond.swapi.web.dto;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import dev.edmond.swapi.models.Film;
 import dev.edmond.swapi.models.Person;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Builder
 public class PlanetResponse {
  
+    private Integer id;
+
     private String name;
 
     private String rotation_period;
@@ -29,9 +36,11 @@ public class PlanetResponse {
 
     private String population;
     
-    private Set<Person> residents;
+    
+    private Set<String> residents;
 
-    private Set<Film> films;
+    
+    private Set<String> films;
 
     private String url;
     

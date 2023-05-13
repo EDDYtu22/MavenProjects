@@ -6,24 +6,25 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -61,12 +62,14 @@ public class Planet {
     private String population;
 
     @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("planet")
     private Set<Person> residents;
 
     @OneToMany(mappedBy = "planet")
     private Set<Specie> species;
 
     @ManyToMany(mappedBy = "planets", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("planets")
     private Set<Film> films;
 
     @Column(name = "created")

@@ -1,7 +1,10 @@
 package dev.edmond.swapi.web.dto;
 
+import org.hibernate.validator.constraints.Range;
+
 import dev.edmond.swapi.validation.ValidGender;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +17,7 @@ public class PersonCreateRequest {
     @Id
     private Integer id;
 
+    @NotNull
     private String name;
 
     private String height;

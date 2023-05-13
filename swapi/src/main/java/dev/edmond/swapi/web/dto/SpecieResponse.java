@@ -1,13 +1,19 @@
 package dev.edmond.swapi.web.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import java.util.Set;
 
-@Data
-@Builder
-public class SpecieDto {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class SpecieResponse {
     
-    
+    @JsonIgnore
+    private Integer id;
+
     private String name;
 
     private String classification;
@@ -23,8 +29,18 @@ public class SpecieDto {
     private String eye_colors;
 
     private String average_lifespan;
+
+    private String planet;
    
     private String language;
+
+    private Set<String> persons;
+
+    private Set<String> films;
+
+    private String created;
+
+    private String updated;
 
     private String url;
 }

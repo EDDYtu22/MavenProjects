@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import lombok.Data;
 
 @Data
+@JsonPropertyOrder({"count", "nextPage","prevPage", "content"})
 public class SwapiPage<T> {
 
     private List<T> content;

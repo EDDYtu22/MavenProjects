@@ -1,14 +1,19 @@
 package dev.edmond.swapi.web.dto;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class FilmDto {
+public class FilmCreateRequest {
 
+    @JsonIgnore
+    private Integer id;
+
+    @NotNull
     private String title;
 
     private String opening_crawl;
@@ -17,7 +22,7 @@ public class FilmDto {
 
     private String producer;
 
+    @NotNull
     private String release_date;
-   
-    private String url;
+
 }
