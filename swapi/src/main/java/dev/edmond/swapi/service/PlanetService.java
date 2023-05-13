@@ -31,7 +31,7 @@ public class PlanetService {
 
     public Planet fetchById(Integer planetId){
         Planet planet = repo.findById(planetId).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Planet Not Found", Person.class.getName(), planetId.toString());
+            throw new ObjectNotFoundException("Planet Not Found", Planet.class.getName(), planetId.toString());
         });
         return planet;
     }

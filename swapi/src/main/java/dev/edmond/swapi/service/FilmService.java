@@ -54,7 +54,7 @@ public class FilmService {
 
     public Film fetchById(Integer filmId){
         Film film = repo.findById(filmId).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Film Not Found", Person.class.getName(), filmId.toString());
+            throw new ObjectNotFoundException("Film Not Found", Film.class.getName(), filmId.toString());
         });
         return film;
     }
@@ -62,7 +62,7 @@ public class FilmService {
     public Set<Integer> setFilmVehicles(String filmId, Set<Integer> vehicleIds) {
 
         Film film = repo.findById(Integer.parseInt(filmId)).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Film Not Found", Person.class.getName(), filmId);
+            throw new ObjectNotFoundException("Film Not Found", Film.class.getName(), filmId);
         });
 
         List<Vehicle> allFilmVehicles = (List<Vehicle>) vehicleRepo.findAllById(vehicleIds);
@@ -81,7 +81,7 @@ public class FilmService {
     public Set<Integer> setFilmStarships(String filmId, Set<Integer> starshipIds) {
 
         Film film = repo.findById(Integer.parseInt(filmId)).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Film Not Found", Person.class.getName(), filmId);
+            throw new ObjectNotFoundException("Film Not Found", Film.class.getName(), filmId);
         });
 
         List<Starship> allFilmStarships = (List<Starship>) starshipRepo.findAllById(starshipIds);
@@ -100,7 +100,7 @@ public class FilmService {
     public Set<Integer> setFilmSpecies(String filmId, Set<Integer> specieIds) {
 
         Film film = repo.findById(Integer.parseInt(filmId)).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Film Not Found", Person.class.getName(), filmId);
+            throw new ObjectNotFoundException("Film Not Found", Film.class.getName(), filmId);
         });
 
         List<Specie> allFilmSpecies = (List<Specie>) specieRepo.findAllById(specieIds);
@@ -119,7 +119,7 @@ public class FilmService {
     public Set<Integer> setFilmPlanets(String filmId, Set<Integer> planetIds) {
 
         Film film = repo.findById(Integer.parseInt(filmId)).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Film Not Found", Person.class.getName(), filmId);
+            throw new ObjectNotFoundException("Film Not Found", Film.class.getName(), filmId);
         });
 
         List<Planet> allFilmPlanets = (List<Planet>) planetRepo.findAllById(planetIds);

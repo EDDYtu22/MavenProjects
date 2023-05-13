@@ -32,7 +32,7 @@ public class StarshipService {
 
     public Starship fetchById(Integer starshipId){
         Starship starship = repo.findById(starshipId).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Starship Not Found", Person.class.getName(), starshipId.toString());
+            throw new ObjectNotFoundException("Starship Not Found", Starship.class.getName(), starshipId.toString());
         });
         return starship;
     }

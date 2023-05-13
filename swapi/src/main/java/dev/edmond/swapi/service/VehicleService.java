@@ -33,7 +33,7 @@ public class VehicleService {
 
     public Vehicle fetchById(Integer vehicleId){
         Vehicle vehicle = repo.findById(vehicleId).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Person Not Found", Person.class.getName(), vehicleId.toString());
+            throw new ObjectNotFoundException("Vehicle Not Found", Vehicle.class.getName(), vehicleId.toString());
         });
         return vehicle;
     }

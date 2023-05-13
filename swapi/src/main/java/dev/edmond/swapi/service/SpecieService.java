@@ -31,7 +31,7 @@ public class SpecieService {
 
     public Specie fetchById(Integer specieId){
         Specie specie = repo.findById(specieId).orElseThrow(() -> {
-            throw new ObjectNotFoundException("Specie Not Found", Person.class.getName(), specieId.toString());
+            throw new ObjectNotFoundException("Specie Not Found", Specie.class.getName(), specieId.toString());
         });
         return specie;
     }
